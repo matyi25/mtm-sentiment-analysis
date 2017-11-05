@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import codecs
 import sys
+import string
 
 TRAIN_FILENAME = "_train.txt"
 TEST_FILENAME = "_test.txt"
@@ -13,6 +14,7 @@ PREDICT_FILENAME = "_predicted.txt"
 TRAIN_SET_LEN_RATIO = 0.75
 
 def create_word_features(words):
+    #useful_words = [word for word in words if (word not in stopwords.words("english") and word not in string.punctuation)]
     useful_words = [word for word in words if word not in stopwords.words("english")]
     word_dict = dict([(word, True) for word in useful_words])
     return word_dict
