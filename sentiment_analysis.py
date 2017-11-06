@@ -1,5 +1,10 @@
 import nltk
 import nltk.classify.util
+import nltk.classify
+
+from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
+from nltk.classify import DecisionTreeClassifier
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -33,10 +38,15 @@ def transform_input_file(filename):
     return result[:train_len],result[train_len:]
 
 def train_and_test(train_set, test_set):
+    #classifier = nltk.classify.SklearnClassifier(LinearSVC()).train(train_set)
+    #classifier = nltk.classify.SklearnClassifier(SVC()).train(train_set)
+    #classifier = DecisionTreeClassifier.train(train_set)
     classifier = NaiveBayesClassifier.train(train_set)
+
     accuracy = nltk.classify.util.accuracy(classifier, test_set)
     print(accuracy * 100)
 
+    classifier = NaiveBayesClassifier.train(train_set + test_set)
     return classifier
 
 def predict(classifier, test_filename, predict_filename):
