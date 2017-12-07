@@ -8,6 +8,7 @@ from nltk.classify import DecisionTreeClassifier
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from nltk.stem.snowball import SnowballStemmer
 import codecs
 import sys
 import string
@@ -26,13 +27,15 @@ def create_word_features(words):
 
 
 def transform_input_file(filename):
+    stemmer = SnowballStemmer("english")
     result = []
     with codecs.open(filename,'r',encoding='utf8', errors="ignore") as f:
         for line in f:
             temp_line = line.strip("\r")
             splitted_line = temp_line.split("\t")
             words = word_tokenize(splitted_line[0])
-            result.append((create_word_features(words), splitted_line[1]))
+            stemmed_words = [stemmer.stem(word) for word in words]
+            result.append((create_word_features(stemmed_words), splitted_line[1]))
 
     train_len = int(round(len(result) * TRAIN_SET_LEN_RATIO))
     return result[:train_len],result[train_len:]

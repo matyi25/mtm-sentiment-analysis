@@ -2,7 +2,7 @@ NaiveBayes example - http://pythonforengineers.com/build-a-sentiment-analysis-ap
 
 Results:
 				amazon		yelp
-NaiveBayes		 70.4		 76.8* 
-DecisionTree	 88.8 		 56.0 - slow
-SVC 			 88.0*		 57.6
-LinearSVC		 87.2		 71.2
+NaiveBayes		 76.8		 81.6* 
+DecisionTree	 88.8 		 72.0 - slow
+SVC 			 88.0		 57.6
+LinearSVC		 89.6*		 71.2
