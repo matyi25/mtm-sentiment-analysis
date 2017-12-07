@@ -41,10 +41,10 @@ def transform_input_file(filename):
     return result[:train_len],result[train_len:]
 
 def train_and_test(train_set, test_set):
-    #classifier = nltk.classify.SklearnClassifier(LinearSVC()).train(train_set)
+    classifier = nltk.classify.SklearnClassifier(LinearSVC()).train(train_set)
     #classifier = nltk.classify.SklearnClassifier(SVC()).train(train_set)
     #classifier = DecisionTreeClassifier.train(train_set)
-    classifier = NaiveBayesClassifier.train(train_set)
+    #classifier = NaiveBayesClassifier.train(train_set)
 
     accuracy = nltk.classify.util.accuracy(classifier, test_set)
     print(accuracy * 100)
@@ -53,12 +53,14 @@ def train_and_test(train_set, test_set):
     return classifier
 
 def predict(classifier, test_filename, predict_filename):
+    stemmer = SnowballStemmer("english")
     with codecs.open(test_filename,'r',encoding='utf8', errors="ignore") as test_file:
         with codecs.open(predict_filename,'w',encoding='utf8', errors="ignore") as predict_file:
             for line in test_file:
                 temp_line = line.strip("\r")
                 words = word_tokenize(temp_line)
-                words = create_word_features(words)
+                stemmed_words = [stemmer.stem(word) for word in words]
+                words = create_word_features(stemmed_words)
                 result = classifier.classify(words)
 
                 predict_file.write(temp_line + "\t" + result + "\n")
